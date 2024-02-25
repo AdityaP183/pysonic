@@ -14,9 +14,13 @@ def create_app():
 
     from app.routes.auth import auth_bp
     from app.routes.artist import artist_bp
+    from app.routes.song import song_bp
+    from app.routes.album import album_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(artist_bp)
+    app.register_blueprint(song_bp)
+    app.register_blueprint(album_bp)
 
     with app.app_context():
         db.create_all()

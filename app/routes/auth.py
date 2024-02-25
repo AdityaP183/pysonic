@@ -21,7 +21,7 @@ def user_register():
             db.session.commit()
         except Exception as e:
             return jsonify({"message": str(e)}), 400
-        return jsonify({"message": "User registration successful"}), 201
+        return jsonify({"message": "User registration successfully"}), 201
     else:
         return "Request must contain JSON data", 400
 
@@ -39,7 +39,7 @@ def user_login():
         else:
             if user and check_password_hash(user.password, password):
                 session["user_id"] = user.user_id
-                return jsonify({"message": "User login successful"}), 200
+                return jsonify({"message": "User login successfully"}), 200
             return jsonify({"message": "User login failed", "data": user}), 401
     else:
         return "Request must contain JSON data", 400
@@ -49,3 +49,16 @@ def user_login():
 def user_logout():
     session.pop("user_id", None)
     return jsonify({"message": "User logged out successfully"}), 200
+
+
+@auth_bp.route("/auth/current-user", methods=["GET"])
+def current_user():
+    if session.get("user_id") is None:
+        return jsonify({"message": "User not logged in"}), 401
+    user = User.query.get(session.get("user_id"))
+    if not user:
+        return (
+            jsonify({"message": f"User not found"}),
+            404,
+        )
+    return jsonify({"username": user.username, "email": user.email}), 200

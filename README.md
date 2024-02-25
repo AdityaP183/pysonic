@@ -68,7 +68,7 @@ Database schema about the tables in the database and the columns in the table.
     -   GenreID (Foreign Key referencing Genres Table)
     -   CreatedByUserID (Foreign Key referencing Users Table)
 
--   **Tracks Table**:
+-   **Song Table**:
 
     -   TrackID (Primary Key)
     -   TrackTitle

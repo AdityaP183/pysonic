@@ -22,7 +22,7 @@ def artist_create():
             db.session.commit()
         except Exception as e:
             return jsonify({"message": str(e)}), 400
-        return jsonify({"message": "User registration successful"}), 201
+        return jsonify({"message": "Artist created successful"}), 201
     else:
         return "Request must contain JSON data", 400
 
@@ -84,7 +84,7 @@ def artist_update(artist_id):
                 ),
                 404,
             )
-        if artist:
+        if artist and artist.created_by == session.get("user_id"):
             if "artistName" in request.json:
                 artist.artist_name = request.json["artistName"]
             if "image" in request.json:
@@ -94,8 +94,12 @@ def artist_update(artist_id):
                 db.session.commit()
             except Exception as e:
                 return jsonify({"message": str(e)}), 400
-            return jsonify({"message": "Artist updated successful"}), 201
-
+            return jsonify({"message": "Artist updated successfully"}), 201
+        else:
+            return (
+                jsonify({"message": "You are not allowed to update this artist"}),
+                400,
+            )
     else:
         return "Request must contain JSON data", 400
 
@@ -118,4 +122,4 @@ def artist_delete(artist_id):
         db.session.commit()
     except Exception as e:
         return jsonify({"message": str(e)}), 400
-    return jsonify({"message": "Artist deleted successful"}), 201
+    return jsonify({"message": "Artist deleted successfully"}), 201

@@ -17,25 +17,25 @@ class Artist(db.Model):
     created_by = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
 
 
-# class Song(db.Model):
-#     song_id = db.Column(db.Integer, primary_key=True)
-#     song_title = db.Column(db.String(255), nullable=False)
-#     duration = db.Column(db.Integer, nullable=True)
-#     release_date = db.Column(db.DateTime, nullable=True, default=datetime.now)
-#     artist_id = db.Column(db.Integer, db.ForeignKey("artist.artist_id"), nullable=True)
-#     song_thumbnail = db.Column(db.String(255), nullable=True)
-#     created_by = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
+class Song(db.Model):
+    song_id = db.Column(db.Integer, primary_key=True)
+    song_title = db.Column(db.String(255), nullable=False)
+    duration = db.Column(db.Integer, nullable=True)
+    release_date = db.Column(db.DateTime, nullable=True, default=datetime.now)
+    artist_id = db.Column(db.Integer, db.ForeignKey("artist.artist_id"), nullable=True)
+    song_thumbnail = db.Column(db.String(255), nullable=True)
+    created_by = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
 
-#     artist = db.relationship("Artist", backref=db.backref("songs", lazy=True))
+    artist = db.relationship("Artist", backref=db.backref("songs", lazy=True))
 
 
-# class Album(db.Model):
-#     album_id = db.Column(db.Integer, primary_key=True)
-#     album_title = db.Column(db.String(255), nullable=False)
-#     release_date = db.Column(db.DateTime, nullable=True, default=datetime.now)
-#     artist_id = db.Column(db.Integer, db.ForeignKey("artist.artist_id"), nullable=True)
-#     album_thumbnail = db.Column(db.String(255), nullable=True)
-#     created_by = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
+class Album(db.Model):
+    album_id = db.Column(db.Integer, primary_key=True)
+    album_title = db.Column(db.String(255), nullable=False)
+    release_date = db.Column(db.DateTime, nullable=True, default=datetime.now)
+    artist_id = db.Column(db.Integer, db.ForeignKey("artist.artist_id"), nullable=True)
+    album_thumbnail = db.Column(db.String(255), nullable=True)
+    created_by = db.Column(db.Integer, db.ForeignKey("user.user_id"), nullable=False)
 
-#     artist = db.relationship("Artist", backref=db.backref("albums", lazy=True))
-#     album_songs = db.relationship("Song", backref=db.backref("album", lazy=True))
+    artist = db.relationship("Artist", backref=db.backref("albums", lazy=True))
+    album_songs = db.relationship("Song", backref=db.backref("album", lazy=True))
