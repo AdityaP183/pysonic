@@ -2,51 +2,51 @@
 
 Create a robust music backend system powered by MySQL database and Python operators, enabling seamless management of artists, albums, songs, playlists, and user interactions with efficient CRUD operations and secure authentication.
 
-## Introduction
-
 ## Endpoints
 
 ### 1. Authentication
 
--   **POST /register**: Create a user account.
--   **POST /login**: Login into your account.
--   **GET /logout**: Logout from your account.
+-   **POST /auth/register**: Create a user account.
+-   **POST /auth/login**: Login into your account.
+-   **GET /auth/logout**: Logout from your account.
 
 ### 2. User Info
 
--   **GET /user/info**: Get user information
+-   **GET /auth/current-user**: Get user information
 
 ### 3. Artist
 
 -   **GET /artists**: Retrieve a list of all artists.
 -   **GET /artists/{artist_id}**: Retrieve details of a specific artist.
 -   **POST /artists**: Create a new artist.
--   **PUT /artists/{artist_id}**: Update details of an existing artist.
+-   **PATCH /artists/{artist_id}**: Update details of an existing artist.
 -   **DELETE /artists/{artist_id}**: Delete an artist.
 
 ### 4. Song
 
--   **GET /songs**: Retrieve a list of all songs.
+-   **GET /songs/all**: Retrieve a list of all songs.
 -   **GET /songs/{song_id}**: Retrieve details of a specific song.
--   **POST /songs**: Create a new song.
--   **PUT /songs/{song_id}**: Update details of an existing song.
--   **DELETE /songs/{song_id}**: Delete a song.
+-   **POST /songs/create**: Create a new song.
+-   **PATCH /songs/{song_id}**: Update details of a specific song (if created by the current user).
+-   **DELETE /songs/{song_id}**: Delete a specific song. (if created by the current user).
 
 ### 5. Albums
 
--   **GET /albums**: Retrieve a list of all albums.
+-   **GET /albums/all**: Retrieve a list of all albums.
 -   **GET /albums/{album_id}**: Retrieve details of a specific album.
--   **POST /albums**: Create a new album.
--   **PUT /albums/{album_id}**: Update details of an existing album.
--   **DELETE /albums/{album_id}**: Delete an album.
+-   **POST /albums/create**: Create a new album.
+-   **PATCH /albums/{album_id}**: Update details of a specific album (if created by the current user).
+-   **DELETE /albums/{album_id}**: Delete a specific album (if created by the current user).
 
 ### 6. Playlist
 
--   **GET /playlists**: Retrieve a list of all playlists.
--   **GET /playlists/{playlist_id}**: Retrieve details of a specific playlist.
+-   **GET /playlists/all**: Retrieve a list of all playlists (created by the current user).
+-   **GET /playlists/{playlist_id}**: Retrieve details of a specific playlist (created by the current user).
 -   **POST /playlists**: Create a new playlist.
--   **PUT /playlists/{playlist_id}**: Update details of an existing playlist.
+-   **PATCH /playlists/{playlist_id}**: Update details of an existing playlist.
 -   **DELETE /playlists/{playlist_id}**: Delete a playlist.
+-   **PATCH /playlists/{playlist_id}/add**: Add a song to a specific playlist (created by the current user)
+-   **PATCH /playlists/{playlist_id}/remove**: Remove a song from a specific playlist (created by the current user)
 
 ## Database
 
@@ -113,3 +113,12 @@ Database schema about the tables in the database and the columns in the table.
     -   ItemType (e.g., "Album", "Track", "Playlist")
     -   ItemID (Foreign Key referencing the corresponding table based on ItemType)
     -   CreationDate
+
+## Requests Examples
+
+### 1. Auth
+### 2. Artist
+### 3. Song
+### 4. Album
+### 5. Playlist
+
