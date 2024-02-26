@@ -38,7 +38,7 @@ def user_login():
             return jsonify({"message": "No user registered with the given email"}), 404
         else:
             if user and check_password_hash(user.password, password):
-                session["user_id"] = user.user_id
+                session["user_id"] = user.id
                 return jsonify({"message": "User login successfully"}), 200
             return jsonify({"message": "User login failed", "data": user}), 401
     else:

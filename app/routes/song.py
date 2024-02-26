@@ -6,25 +6,25 @@ from app import db
 from app.models import Song
 
 
-@song_bp.route("/song/create", methods=["POST"])
+@song_bp.route("/songs/create", methods=["POST"])
 def song_create():
     if request.is_json:
-        song_name = request.json.get("artistName")
+        title = request.json.get("songTitle")
         duration = request.json.get("duration")
         release_date = request.json.get("releaseDate")
-        artist_id = request.json.get("artistId")
         song_thumbnail = request.json.get("songThumbnail")
         created_by = session.get("user_id")
+        artist_id = request.json.get("artistId")
 
         if created_by is None:
             return jsonify({"message": "User not logged in"}), 401
 
         new_song = Song(
-            song_name=song_name,
+            title=title,
             duration=duration,
             release_date=release_date,
-            artist_id=artist_id,
             song_thumbnail=song_thumbnail,
+            artist_id=artist_id,
             created_by=created_by,
         )
         try:
@@ -37,7 +37,7 @@ def song_create():
         return "Request must contain JSON data", 400
 
 
-@song_bp.route("/song/all", methods=["GET"])
+@song_bp.route("/songs", methods=["GET"])
 def song_getAll():
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
@@ -46,7 +46,7 @@ def song_getAll():
     return jsonify(
         [
             {
-                "songName": song.song_name,
+                "title": song.title,
                 "duration": song.duration,
                 "releaseDate": song.release_date,
                 "artist": song.artist_id,
@@ -58,7 +58,7 @@ def song_getAll():
     )
 
 
-@song_bp.route("/song/<int:song_id>", methods=["GET"])
+@song_bp.route("/songs/<int:song_id>", methods=["GET"])
 def song_getById(song_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
@@ -73,7 +73,7 @@ def song_getById(song_id):
     return (
         jsonify(
             {
-                "songName": song.song_name,
+                "title": song.title,
                 "duration": song.duration,
                 "releaseDate": song.release_date,
                 "artist": song.artist_id,
@@ -85,7 +85,7 @@ def song_getById(song_id):
     )
 
 
-@song_bp.route("/song/<song_id>", methods=["PATCH"])
+@song_bp.route("/songs/<song_id>", methods=["PATCH"])
 def song_update(song_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
@@ -100,13 +100,11 @@ def song_update(song_id):
             )
         if song and song.created_by == session.get("user_id"):
             if "songName" in request.json:
-                song.song_name = request.json["songName"]
+                song.title = request.json["songTitle"]
             if "duration" in request.json:
                 song.duration = request.json["duration"]
             if "releaseDate" in request.json:
                 song.release_date = request.json["releaseDate"]
-            if "artist" in request.json:
-                song.artist_id = request.json["artist"]
             if "songThumbnail" in request.json:
                 song.song_thumbnail = request.json["songThumbnail"]
 
@@ -124,7 +122,7 @@ def song_update(song_id):
         return "Request must contain JSON data", 400
 
 
-@song_bp.route("/song/<song_id>", methods=["DELETE"])
+@song_bp.route("/songs/<song_id>", methods=["DELETE"])
 def artist_delete(song_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401

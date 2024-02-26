@@ -6,17 +6,20 @@ from app import db
 from app.models import Artist
 
 
-@artist_bp.route("/artist/create", methods=["POST"])
+@artist_bp.route("/artists/create", methods=["POST"])
 def artist_create():
     if request.is_json:
-        artist_name = request.json.get("artistName")
+        name = request.json.get("artistName")
         image = request.json.get("image")
         created_by = session.get("user_id")
 
         if created_by is None:
             return jsonify({"message": "User not logged in"}), 401
 
-        new_artist = Artist(artist_name=artist_name, image=image, created_by=created_by)
+        if name is None:
+            return jsonify({"message": "artistName is required"}), 400
+
+        new_artist = Artist(name=name, image=image, created_by=created_by)
         try:
             db.session.add(new_artist)
             db.session.commit()
@@ -27,7 +30,7 @@ def artist_create():
         return "Request must contain JSON data", 400
 
 
-@artist_bp.route("/artist/all", methods=["GET"])
+@artist_bp.route("/artists", methods=["GET"])
 def artist_getAll():
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
@@ -36,7 +39,7 @@ def artist_getAll():
     return jsonify(
         [
             {
-                "artistName": artist.artist_name,
+                "artistName": artist.name,
                 "image": artist.image,
                 "createdBy": artist.created_by,
             }
@@ -45,7 +48,7 @@ def artist_getAll():
     )
 
 
-@artist_bp.route("/artist/<int:artist_id>", methods=["GET"])
+@artist_bp.route("/artists/<int:artist_id>", methods=["GET"])
 def artist_getById(artist_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
@@ -60,7 +63,7 @@ def artist_getById(artist_id):
     return (
         jsonify(
             {
-                "artistName": artist.artist_name,
+                "artistName": artist.name,
                 "image": artist.image,
                 "createdBy": artist.created_by,
             }
@@ -69,7 +72,7 @@ def artist_getById(artist_id):
     )
 
 
-@artist_bp.route("/artist/<artist_id>", methods=["PATCH"])
+@artist_bp.route("/artists/<artist_id>", methods=["PATCH"])
 def artist_update(artist_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
@@ -86,7 +89,7 @@ def artist_update(artist_id):
             )
         if artist and artist.created_by == session.get("user_id"):
             if "artistName" in request.json:
-                artist.artist_name = request.json["artistName"]
+                artist.name = request.json["artistName"]
             if "image" in request.json:
                 artist.image = request.json["image"]
 
@@ -104,7 +107,7 @@ def artist_update(artist_id):
         return "Request must contain JSON data", 400
 
 
-@artist_bp.route("/artist/<artist_id>", methods=["DELETE"])
+@artist_bp.route("/artists/<artist_id>", methods=["DELETE"])
 def artist_delete(artist_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
