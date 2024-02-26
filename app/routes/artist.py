@@ -6,7 +6,7 @@ from app import db
 from app.models import Artist
 
 
-@artist_bp.route("/artists/create", methods=["POST"])
+@artist_bp.route("/artists", methods=["POST"])
 def artist_create():
     if request.is_json:
         name = request.json.get("artistName")

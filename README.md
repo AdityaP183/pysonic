@@ -16,25 +16,25 @@ Create a robust music backend system powered by MySQL database and Python operat
 
 ### 3. Artist
 
+-   **POST /artists**: Create a new artist.
 -   **GET /artists**: Retrieve a list of all artists.
 -   **GET /artists/{artist_id}**: Retrieve details of a specific artist.
--   **POST /artists**: Create a new artist.
 -   **PATCH /artists/{artist_id}**: Update details of an existing artist.
 -   **DELETE /artists/{artist_id}**: Delete an artist.
 
 ### 4. Song
 
--   **GET /songs/all**: Retrieve a list of all songs.
+-   **POST /songs**: Create a new song.
+-   **GET /songs**: Retrieve a list of all songs.
 -   **GET /songs/{song_id}**: Retrieve details of a specific song.
--   **POST /songs/create**: Create a new song.
 -   **PATCH /songs/{song_id}**: Update details of a specific song (if created by the current user).
 -   **DELETE /songs/{song_id}**: Delete a specific song. (if created by the current user).
 
 ### 5. Albums
 
--   **GET /albums/all**: Retrieve a list of all albums.
+-   **POST /albums**: Create a new album.
+-   **GET /albums**: Retrieve a list of all albums.
 -   **GET /albums/{album_id}**: Retrieve details of a specific album.
--   **POST /albums/create**: Create a new album.
 -   **PATCH /albums/{album_id}**: Update details of a specific album (if created by the current user).
 -   **DELETE /albums/{album_id}**: Delete a specific album (if created by the current user).
 
@@ -54,71 +54,28 @@ Database schema about the tables in the database and the columns in the table.
 
 -   **Artists Table**:
 
-    -   ArtistID (Primary Key)
-    -   ArtistName
-    -   Avatar
-    -   CreatedByUserID (Foreign Key referencing Users Table)
-
 -   **Albums Table**:
-
-    -   AlbumID (Primary Key)
-    -   AlbumTitle
-    -   ArtistID (Foreign Key referencing Artists Table)
-    -   ReleaseYear
-    -   GenreID (Foreign Key referencing Genres Table)
-    -   CreatedByUserID (Foreign Key referencing Users Table)
 
 -   **Song Table**:
 
-    -   TrackID (Primary Key)
-    -   TrackTitle
-    -   AlbumID (Foreign Key referencing Albums Table)
-    -   Duration
-    -   TrackNumber
-    -   CreatedByUserID (Foreign Key referencing Users Table)
-
 -   **Genres Table**:
-
-    -   GenreID (Primary Key)
-    -   GenreName
 
 -   **Playlists Table**:
 
-    -   PlaylistID (Primary Key)
-    -   PlaylistName
-    -   CreatedByUserID (Foreign Key referencing Users Table)
-
 -   **PlaylistTracks Table** (for Many-to-Many relationship between Playlists and Tracks):
-
-    -   PlaylistID (Foreign Key referencing Playlists Table)
-    -   TrackID (Foreign Key referencing Tracks Table)
-    -   TrackOrder (to maintain the order of tracks within a playlist)
-
 -   **Users Table** (if you want to implement user management and user-specific playlists):
 
-    -   UserID (Primary Key)
-    -   Username
-    -   Password
-    -   Email
-
 -   **UserPlaylists Table** (for Many-to-Many relationship between Users and Playlists):
-
-    -   UserID (Foreign Key referencing Users Table)
-    -   PlaylistID (Foreign Key referencing Playlists Table)
-
 -   **UserCreations Table**:
-
-    -   CreationID (Primary Key)
-    -   UserID (Foreign Key referencing Users Table)
-    -   ItemType (e.g., "Album", "Track", "Playlist")
-    -   ItemID (Foreign Key referencing the corresponding table based on ItemType)
-    -   CreationDate
 
 ## Requests Examples
 
 ### 1. Auth
-### 2. Artist
-### 3. Song
-### 4. Album
-### 5. Playlist
 
+### 2. Artist
+
+### 3. Song
+
+### 4. Album
+
+### 5. Playlist

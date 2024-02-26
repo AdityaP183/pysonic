@@ -6,7 +6,7 @@ from app import db
 from app.models import Song
 
 
-@song_bp.route("/songs/create", methods=["POST"])
+@song_bp.route("/songs", methods=["POST"])
 def song_create():
     if request.is_json:
         title = request.json.get("songTitle")

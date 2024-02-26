@@ -7,7 +7,7 @@ from app.models import Album
 
 
 @album_bp.route("/albums", methods=["POST"])
-def create_album():
+def album_create():
     if request.is_json:
         title = request.json.get("albumTitle")
         release_date = request.json.get("releaseDate")
@@ -34,7 +34,7 @@ def create_album():
 
 
 @album_bp.route("/albums", methods=["GET"])
-def get_albums():
+def albums_getAll():
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
 
@@ -54,7 +54,7 @@ def get_albums():
 
 
 @album_bp.route("/albums/<int:album_id>", methods=["GET"])
-def get_albumById(album_id):
+def album_getById(album_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
 
@@ -80,7 +80,7 @@ def get_albumById(album_id):
 
 
 @album_bp.route("/albums/<int:album_id>", methods=["PATCH"])
-def update_album(album_id):
+def album_update(album_id):
     if session.get("user_id") is None:
         return jsonify({"message": "User not logged in"}), 401
 
