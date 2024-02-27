@@ -4,6 +4,7 @@ artist_bp = Blueprint("artist", __name__)
 
 from app import db
 from app.models import Artist
+from app.models import User
 
 
 @artist_bp.route("/artists", methods=["POST"])
@@ -36,16 +37,19 @@ def artist_getAll():
         return jsonify({"message": "User not logged in"}), 401
 
     all_artist = Artist.query.all()
-    return jsonify(
-        [
+
+    all_sorted_artist = []
+
+    for artist in all_artist:
+        user = User.query.get(artist.created_by)
+        all_sorted_artist.append(
             {
                 "artistName": artist.name,
                 "image": artist.image,
-                "createdBy": artist.created_by,
+                "createdBy": user.username,
             }
-            for artist in all_artist
-        ]
-    )
+        )
+    return jsonify(all_sorted_artist), 200
 
 
 @artist_bp.route("/artists/<int:artist_id>", methods=["GET"])
@@ -60,14 +64,15 @@ def artist_getById(artist_id):
             jsonify({"message": f"Artist not found with the given id = {artist_id}"}),
             404,
         )
+
+    user = User.query.get(artist.created_by)
+    single_artist = {
+        "artistName": artist.name,
+        "image": artist.image,
+        "createdBy": user.username,
+    }
     return (
-        jsonify(
-            {
-                "artistName": artist.name,
-                "image": artist.image,
-                "createdBy": artist.created_by,
-            }
-        ),
+        jsonify(single_artist),
         200,
     )
 

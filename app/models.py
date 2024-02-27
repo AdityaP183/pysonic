@@ -32,7 +32,8 @@ class Song(db.Model):
     song_thumbnail = db.Column(db.String(255), nullable=True)
     created_by = db.Column(db.Integer, nullable=False)
     artist_id = db.Column(db.Integer, db.ForeignKey("artist.id"))
-    # albums = db.relationship("Album", backref="song", lazy=True)
+
+    albumsong_id = db.relationship("AlbumSongs", backref="song", lazy=True)
 
     def __repr__(self):
         return f"<Song: {self.title} >"
@@ -45,5 +46,14 @@ class Album(db.Model):
     album_thumbnail = db.Column(db.String(255), nullable=True)
     created_by = db.Column(db.Integer, nullable=False)
 
+    albumsong_id = db.relationship("AlbumSongs", backref="album", lazy=True)
+
     def __repr__(self):
         return f"<Song: {self.title} >"
+
+
+class AlbumSongs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    album_id = db.Column(db.Integer, db.ForeignKey("album.id"))
+    song_id = db.Column(db.Integer, db.ForeignKey("song.id"))
+    created_by = db.Column(db.Integer, nullable=False)

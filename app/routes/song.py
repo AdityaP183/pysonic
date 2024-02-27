@@ -4,6 +4,8 @@ song_bp = Blueprint("song", __name__)
 
 from app import db
 from app.models import Song
+from app.models import Artist
+from app.models import User
 
 
 @song_bp.route("/songs", methods=["POST"])
@@ -43,19 +45,27 @@ def song_getAll():
         return jsonify({"message": "User not logged in"}), 401
 
     all_song = Song.query.all()
-    return jsonify(
-        [
+    all_sorted_songs = []
+    for song in all_song:
+        artist = Artist.query.get(song.artist_id)
+        artist_user = User.query.get(artist.created_by)
+        song_user = User.query.get(song.created_by)
+        all_sorted_songs.append(
             {
                 "title": song.title,
                 "duration": song.duration,
                 "releaseDate": song.release_date,
-                "artist": song.artist_id,
+                "artist": {
+                    "artistName": artist.name,
+                    "image": artist.image,
+                    "createdBy": artist_user.username,
+                },
                 "songThumbnail": song.song_thumbnail,
-                "createdBy": song.created_by,
+                "createdBy": song_user.username,
             }
-            for song in all_song
-        ]
-    )
+        )
+
+    return jsonify(all_sorted_songs)
 
 
 @song_bp.route("/songs/<int:song_id>", methods=["GET"])
@@ -70,17 +80,24 @@ def song_getById(song_id):
             jsonify({"message": f"Song not found with the given id = {song_id}"}),
             404,
         )
+
+    artist = Artist.query.get(song.artist_id)
+    artist_user = User.query.get(artist.created_by)
+    song_user = User.query.get(song.created_by)
+    single_song = {
+        "title": song.title,
+        "duration": song.duration,
+        "releaseDate": song.release_date,
+        "artist": {
+            "artistName": artist.name,
+            "image": artist.image,
+            "createdBy": artist_user.username,
+        },
+        "songThumbnail": song.song_thumbnail,
+        "createdBy": song_user.username,
+    }
     return (
-        jsonify(
-            {
-                "title": song.title,
-                "duration": song.duration,
-                "releaseDate": song.release_date,
-                "artist": song.artist_id,
-                "songThumbnail": song.song_thumbnail,
-                "createdBy": song.created_by,
-            }
-        ),
+        jsonify(single_song),
         200,
     )
 
