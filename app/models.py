@@ -49,7 +49,7 @@ class Album(db.Model):
     albumsong_id = db.relationship("AlbumSongs", backref="album", lazy=True)
 
     def __repr__(self):
-        return f"<Song: {self.title} >"
+        return f"<Album: {self.title} >"
 
 
 class AlbumSongs(db.Model):
