@@ -2,12 +2,12 @@ from flask import Blueprint, request, jsonify, session
 
 album_bp = Blueprint("album", __name__)
 
-from app import db
-from app.models import User
-from app.models import Artist
-from app.models import Song
-from app.models import Album
-from app.models import AlbumSongs
+from brain import db
+from brain.models import User
+from brain.models import Artist
+from brain.models import Song
+from brain.models import Album
+from brain.models import AlbumSongs
 
 #! Main albums routes
 

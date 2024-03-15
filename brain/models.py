@@ -1,5 +1,5 @@
 from datetime import datetime
-from app import db
+from brain import db
 
 
 class User(db.Model):

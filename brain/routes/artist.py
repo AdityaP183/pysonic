@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify, session
 
 artist_bp = Blueprint("artist", __name__)
 
-from app import db
-from app.models import Artist
-from app.models import User
+from brain import db
+from brain.models import Artist
+from brain.models import User
 
 
 @artist_bp.route("/artists", methods=["POST"])

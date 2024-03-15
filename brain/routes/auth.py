@@ -2,8 +2,8 @@ from flask import Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
 
 auth_bp = Blueprint("auth", __name__)
-from app import db
-from app.models import User
+from brain import db
+from brain.models import User
 
 
 @auth_bp.route("/auth/register", methods=["POST"])

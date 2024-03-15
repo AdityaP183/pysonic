@@ -12,10 +12,10 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
-    from app.routes.auth import auth_bp
-    from app.routes.artist import artist_bp
-    from app.routes.song import song_bp
-    from app.routes.album import album_bp
+    from brain.routes.auth import auth_bp
+    from brain.routes.artist import artist_bp
+    from brain.routes.song import song_bp
+    from brain.routes.album import album_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(artist_bp)
